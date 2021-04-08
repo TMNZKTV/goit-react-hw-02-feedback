@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 
 // Components
-import Section from './Components/Feedback/Section/Section';
+import FeedbackOptions from './Components/Feedback/FeedbackOptions/FeedbackOptions';
+import StatisticsList from './Components/Feedback/StatisticsList/StatisticsList';
 
 class App extends Component {
     state = {
@@ -32,17 +33,33 @@ class App extends Component {
 
     render() {
         const options = Object.keys(this.state);
+
+        const Section = ({ title, children }) => (
+            <section>
+                <h1>{title}</h1>
+                {children}
+            </section>
+        );
+
         return (
             <div>
-                <Section
-                    options={options}
-                    onLeaveFeedback={this.handleIncrement}
-                    good={this.state.good}
-                    neutral={this.state.neutral}
-                    bad={this.state.bad}
-                    total={this.countTotalFeedback()}
-                    percentage={this.countPositiveFeedbackPercentage()}
-                />
+                <Section>
+                    <FeedbackOptions
+                        options={options}
+                        onLeaveFeedback={this.handleIncrement}
+                    />
+                </Section>
+
+                <Section title="Statistics">
+                    <StatisticsList
+                        title="Please leave feedback"
+                        good={this.state.good}
+                        neutral={this.state.neutral}
+                        bad={this.state.bad}
+                        total={this.countTotalFeedback()}
+                        percentage={this.countPositiveFeedbackPercentage()}
+                    />
+                </Section>
             </div>
         );
     }
